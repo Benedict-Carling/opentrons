@@ -14,7 +14,7 @@ from .errors import V1HandlerError, \
     transform_http_exception_to_json_api_errors, \
     transform_validation_error_to_json_api_errors, \
     consolidate_fastapi_response, RobotServerError, ErrorResponse
-from .dependencies import get_rpc_server
+from .dependencies import get_rpc_server, api_wrapper
 from robot_server import constants
 from robot_server.service.legacy.routers import legacy_routes
 from robot_server.service.access.router import router as access_router
@@ -65,6 +65,8 @@ app.include_router(router=routes,
 async def on_startup():
     """App startup handler"""
     initialize_logging()
+    # Initialize api
+    api_wrapper.async_initialize()
 
 
 @app.on_event("shutdown")

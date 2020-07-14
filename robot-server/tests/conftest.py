@@ -9,7 +9,7 @@ from unittest.mock import MagicMock
 import pytest
 from starlette.testclient import TestClient
 from robot_server.service.app import app
-from robot_server.service.dependencies import get_hardware
+from robot_server.service.dependencies import get_hardware, verify_hardware
 from opentrons.hardware_control import API, HardwareAPILike
 from opentrons import config
 
@@ -30,6 +30,10 @@ def api_client(hardware) -> TestClient:
         """Override for get_hardware dependency"""
         return hardware
 
+    async def verify_hardware_override():
+        pass
+
+    app.dependency_overrides[verify_hardware] = verify_hardware_override
     app.dependency_overrides[get_hardware] = get_hardware_override
     return TestClient(app)
 
