@@ -14,7 +14,7 @@ from .errors import V1HandlerError, \
     transform_http_exception_to_json_api_errors, \
     transform_validation_error_to_json_api_errors, \
     consolidate_fastapi_response, RobotServerError, ErrorResponse
-from .dependencies import get_rpc_server
+from .dependencies import get_rpc_server, get_protocol_manager
 from robot_server import constants
 from robot_server.service.legacy.routers import legacy_routes
 from robot_server.service.access.router import router as access_router
@@ -75,6 +75,8 @@ async def on_shutdown():
     """App shutdown handler"""
     s = await get_rpc_server()
     await s.on_shutdown()
+    # Remove all uploaded protocols
+    get_protocol_manager().remove_all()
 
 
 @app.middleware("http")
