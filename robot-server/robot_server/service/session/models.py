@@ -43,6 +43,7 @@ class SessionType(str, Enum):
     default = 'default'
     calibration_check = 'calibrationCheck'
     tip_length_calibration = 'tipLengthCalibration'
+    protocol = 'protocol'
 
     @property
     def model(self):
